@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../hooks/useAuth'
-import Sidebar from '../../components/layout/Sidebar';
+import Sidebar from '../components/layout/Sidebar'
 
 export default function DashboardLayout({ children }) {
   const { user, loading } = useAuth();
