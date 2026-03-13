@@ -13,7 +13,7 @@ import {
   setDoc,
   limit,
 } from 'firebase/firestore';
-import { db } from './config';
+import { db } from '@/firebase/config'
 
 // ---- DOCUMENTS ----
 export const addDocument = async (userId, docData) => {
