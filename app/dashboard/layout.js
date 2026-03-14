@@ -1,39 +1,40 @@
-'use client';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../../hooks/useAuth';
-import Sidebar from '../../components/layout/Sidebar';
+ import './globals.css';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from '../hooks/useAuth';
 
-export default function DashboardLayout({ children }) {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+export const metadata = {
+  title: 'LifeVault — Secure Digital Document Vault',
+  description: 'Store every important document from birth to death in your secure digital vault.',
+};
 
-  useEffect(() => {
-    if (!loading && !user) router.push('/auth');
-  }, [user, loading, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-vault-darker flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 relative">
-            <div className="absolute inset-0 rounded-full border-2 border-vault-neon animate-ping opacity-30" />
-            <div className="absolute inset-2 rounded-full bg-vault-neon/20" />
-          </div>
-          <p className="text-vault-neon font-mono text-xs tracking-widest">LOADING VAULT...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) return null;
-
+export default function RootLayout({ children }) {
   return (
-    <div className="min-h-screen bg-vault-darker flex">
-      <Sidebar />
-      <main className="flex-1 lg:ml-64 p-4 lg:p-8 overflow-auto">
-        {children}
-      </main>
-    </div>
+    <html lang="en">
+      <head>
+        <meta name="theme-color" content="#050810" />
+      </head>
+      <body className="antialiased min-h-screen bg-vault-darker">
+        <AuthProvider>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: '#0a0f1e',
+                color: '#e2e8f0',
+                border: '1px solid #1a2444',
+                fontFamily: 'var(--font-body)',
+              },
+              success: {
+                iconTheme: { primary: '#00f5ff', secondary: '#050810' },
+              },
+              error: {
+                iconTheme: { primary: '#ef4444', secondary: '#050810' },
+              },
+            }}
+          />
+        </AuthProvider>
+      </body>
+    </html>
   );
 }
